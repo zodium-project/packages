@@ -80,7 +80,7 @@ rpmrebuild --notest-install \
         -e '/^Conflicts:/d' \
         -e '\$a Provides: helium-bin = ${INSTALLED_VER}' \
         -e '\$a Conflicts: helium-bin'" \
-    --change-spec-files="cat - <(find ${HELIUM_DIR}/WidevineCdm -printf '%p\n')" \
+    --change-spec-files="cat - <(find ${HELIUM_DIR}/WidevineCdm -printf '%p\n' | grep -vFf <(rpm -ql helium-bin))" \
     helium-bin
 
 RPM_FILE=$(find ~/rpmbuild/RPMS -name "helium-drm-*.rpm" 2>/dev/null | head -1)
