@@ -24,6 +24,14 @@ info "Downloading eza from Terra..."
 dnf download eza \
     --destdir /output \
     -q
+
+# Strip epoch prefix (e.g. eza-0:0.23.4-1.fc43.x86_64.rpm → eza-0.23.4-1.fc43.x86_64.rpm)
+for f in /output/eza-*:*.rpm; do
+    [[ -f "$f" ]] || continue
+    clean="${f//*:/}"
+    mv "$f" "/output/$clean"
+done
+
 ok "RPM ready: $(ls /output/eza-*.rpm)"
 rpm -qp --info /output/eza-*.rpm
 rpm -qp --list /output/eza-*.rpm
