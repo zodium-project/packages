@@ -102,3 +102,48 @@ jobs:
             --latest=false \
             --notes "**built:** \`$(date -u '+%Y-%m-%d %H:%M UTC')\`" \
             all-rpms/*.rpm
+
+  update-repo:
+    name: Update DNF repo metadata
+    runs-on: ubuntu-latest
+    needs: publish
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout website repo
+        uses: actions/checkout@v6
+        with:
+          repository: zodium-project/zodium-project.github.io
+          token: ${{ secrets.REPO_PAT }}
+          path: website
+
+      - name: Install createrepo
+        run: sudo apt-get install -y createrepo-c
+
+      - name: Download all RPMs
+        uses: actions/download-artifact@v6
+        with:
+          pattern: rpms-*
+          path: all-rpms
+          merge-multiple: true
+
+      - name: Update repodata
+        run: |
+          REPODIR="website/repo/x86_64"
+          mkdir -p "$REPODIR"
+          rm -rf "$REPODIR"/*.rpm "$REPODIR"/repodata
+          cp all-rpms/*.rpm "$REPODIR/"
+          createrepo_c \
+            --baseurl "https://github.com/zodium-project/pkgs-zodium/releases/download/pkgs-rpm/" \
+            "$REPODIR"
+
+      - name: Commit and push repodata
+        run: |
+          cd website
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add repo/
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "repo: update repodata $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
