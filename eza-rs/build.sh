@@ -23,6 +23,7 @@ ok "Terra repo added"
 info "Downloading eza from Terra..."
 dnf download eza \
     --destdir /output \
+    --arch x86_64 \
     -q
 
 # Strip epoch prefix (e.g. eza-0:0.23.4-1.fc43.x86_64.rpm → eza-0.23.4-1.fc43.x86_64.rpm)
