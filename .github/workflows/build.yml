@@ -132,11 +132,17 @@ jobs:
         run: |
           REPODIR="website/repo/x86_64"
           mkdir -p "$REPODIR"
-          rm -rf "$REPODIR"/*.rpm "$REPODIR"/repodata
-          cp all-rpms/*.rpm "$REPODIR/"
+          rm -rf "$REPODIR"/repodata
+
+          # Generate repodata from RPMs but don't copy RPMs into website repo
+          TMPDIR=$(mktemp -d)
+          cp all-rpms/*.rpm "$TMPDIR/"
           createrepo_c \
             --baseurl "https://github.com/zodium-project/pkgs-zodium/releases/download/pkgs-rpm/" \
-            "$REPODIR"
+            "$TMPDIR"
+
+          # Only copy repodata (no RPMs) into website repo
+          cp -r "$TMPDIR/repodata" "$REPODIR/"
 
       - name: Commit and push repodata
         run: |
