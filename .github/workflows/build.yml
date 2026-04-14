@@ -64,6 +64,7 @@ jobs:
           - zync-rs
           - eza-rs
           - vscode
+          - virtio-win
 
     steps:
       - name: Checkout
