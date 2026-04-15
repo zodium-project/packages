@@ -23,17 +23,17 @@ dnf install -y rpm-build dnf-plugins-core dnf5-plugins --setopt=install_weak_dep
 info "Enabling COPR: @ai-ml/nvidia-container-toolkit..."
 dnf copr enable -y @ai-ml/nvidia-container-toolkit
 
-info "Downloading nvidia-container-toolkit from COPR..."
-dnf download --destdir /output nvidia-container-toolkit
-[[ "$(ls /output/nvidia-container-toolkit-*.rpm 2>/dev/null | wc -l)" -gt 0 ]] \
-    || die "nvidia-container-toolkit RPM not downloaded"
-ok "Downloaded: $(ls /output/nvidia-container-toolkit-*.rpm | xargs -n1 basename)"
+info "Downloading nvidia-container-toolkit + selinux from COPR..."
+dnf download --destdir /output --arch x86_64 --arch noarch \
+    nvidia-container-toolkit \
+    nvidia-container-toolkit-selinux
 
-info "Downloading nvidia-container-toolkit-selinux from COPR..."
-dnf download --destdir /output nvidia-container-toolkit-selinux
-[[ "$(ls /output/nvidia-container-toolkit-selinux-*.rpm 2>/dev/null | wc -l)" -gt 0 ]] \
+[[ "$(ls /output/nvidia-container-toolkit-[0-9]*.rpm 2>/dev/null | wc -l)" -gt 0 ]] \
+    || die "nvidia-container-toolkit RPM not downloaded"
+[[ "$(ls /output/nvidia-container-toolkit-selinux-[0-9]*.rpm 2>/dev/null | wc -l)" -gt 0 ]] \
     || die "nvidia-container-toolkit-selinux RPM not downloaded"
-ok "Downloaded: $(ls /output/nvidia-container-toolkit-selinux-*.rpm | xargs -n1 basename)"
+
+ok "Downloaded: $(ls /output/nvidia-container-toolkit-[0-9]*.rpm /output/nvidia-container-toolkit-selinux-[0-9]*.rpm | xargs -n1 basename)"
 
 # 3 — Stage assets
 # =============================================================================
