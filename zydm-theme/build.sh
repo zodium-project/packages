@@ -87,15 +87,6 @@ power bar, and a login card — rendered with Qt 6 QML.
 %install
 cp -a "${WORKDIR}/staging/." "%{buildroot}/"
 
-%post
-systemctl enable sddm.service &>/dev/null || :
-
-%preun
-%systemd_preun sddm.service
-
-%postun
-%systemd_postun_with_restart sddm.service
-
 %files
 ${FILES_SECTION}
 %changelog
