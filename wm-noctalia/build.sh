@@ -35,5 +35,12 @@ dnf download niri mangowm \
     --arch x86_64 --arch noarch \
     -q
 
+# Strip epoch prefix (e.g. mangowm-0:0.23.4-1.fc43.x86_64.rpm → mangowm-0.23.4-1.fc43.x86_64.rpm)
+for f in /output/mangowm-*:*.rpm; do
+    [[ -f "$f" ]] || continue
+    clean="${f//*:/}"
+    mv "$f" "/output/$clean"
+done
+
 ok "RPM ready:"
 ls /output/*.rpm
