@@ -17,7 +17,7 @@ die()  { echo "[✗] $*" >&2; exit 1; }
 # 1 — Install build dependencies
 # =============================================================================
 info "Installing dependencies..."
-dnf install -y rpm-build git --setopt=install_weak_deps=False -q
+dnf install -y rpm-build git rsync --setopt=install_weak_deps=False -q
 
 # 2 — Clone theme & extract version from metadata.desktop
 # =============================================================================
