@@ -30,7 +30,7 @@ ok "Terra repo added"
 info "Downloading from COPR..."
 dnf download niri mangowm \
     noctalia-shell noctalia-qs \
-    cliphist nwg-look \
+    cliphist nwg-look xcur2png \
     --destdir /output \
     --arch x86_64 --arch noarch \
     -q
