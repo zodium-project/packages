@@ -106,12 +106,6 @@ SPEC
 
 # 3 — Build all packages
 # =============================================================================
-build_package "zync" \
-    "Unified atomic update orchestrator written in Rust" \
-    "zync is a unified update orchestrator for Fedora Atomic and bootc-based systems.
-Handles rpm-ostree, Flatpak, Homebrew, Distrobox, Podman, firmware and rollbacks.
-Compiled as a fully static musl binary with zero external runtime deps." \
-    true
 
 build_package "zrun" \
     "Fast TUI shell-script launcher written in Rust" \
