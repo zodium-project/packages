@@ -29,7 +29,8 @@ ok "Terra repo added"
 # =============================================================================
 info "Downloading from COPR..."
 dnf download niri mangowm \
-    noctalia-shell noctalia-qs \
+    noctalia-shell-v5 \
+    qt5ct qt6ct \
     cliphist nwg-look xcur2png \
     --destdir /output \
     --arch x86_64 --arch noarch \
