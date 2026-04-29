@@ -74,9 +74,9 @@ RPM_FILE=$(find "$RPMBUILD/RPMS" -name "plasma-lookandfeel-fedora-*.rpm" | head 
 
 for f in /output/*.rpm; do
     [[ -f "$f" ]] || continue
-    base=$(basename "$f")
-    clean="${base//:/-}"
-    mv "$f" "/output/$clean"
+    base=${f##*/}
+    clean=${base//:/-}
+    [[ "$base" != "$clean" ]] && mv -- "$f" "/output/$clean"
 done
 
 cp "$RPM_FILE" /output/

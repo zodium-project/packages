@@ -79,9 +79,9 @@ cp "$RPM_FILE" /output/
 
 for f in /output/*.rpm; do
     [[ -f "$f" ]] || continue
-    base=$(basename "$f")
-    clean="${base//:/-}"
-    mv "$f" "/output/$clean"
+    base=${f##*/}
+    clean=${base//:/-}
+    [[ "$base" != "$clean" ]] && mv -- "$f" "/output/$clean"
 done
 
 ok "RPM ready: /output/$(basename "$RPM_FILE")"

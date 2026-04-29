@@ -17,9 +17,9 @@ dnf download --arch x86_64 --arch noarch \
 
 for f in /output/*.rpm; do
     [[ -f "$f" ]] || continue
-    base=$(basename "$f")
-    clean="${base//:/-}"
-    mv "$f" "/output/$clean"
+    base=${f##*/}
+    clean=${base//:/-}
+    [[ "$base" != "$clean" ]] && mv -- "$f" "/output/$clean"
 done
 
 info "Showing downloaded files..."

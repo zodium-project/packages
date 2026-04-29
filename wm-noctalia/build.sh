@@ -39,9 +39,9 @@ dnf download niri mangowm \
 # Strip epoch prefix (e.g. mangowm-0:0.23.4-1.fc43.x86_64.rpm → mangowm-0.23.4-1.fc43.x86_64.rpm)
 for f in /output/*.rpm; do
     [[ -f "$f" ]] || continue
-    base=$(basename "$f")
-    clean="${base//:/-}"
-    mv "$f" "/output/$clean"
+    base=${f##*/}
+    clean=${base//:/-}
+    [[ "$base" != "$clean" ]] && mv -- "$f" "/output/$clean"
 done
 
 ok "RPM ready:"
